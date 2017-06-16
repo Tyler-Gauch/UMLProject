@@ -7,8 +7,8 @@ const GIT_DIR = BASE_DIR + "/.git/hooks";
 
 
 ncp(GIT_HOOKS, GIT_DIR, err => {
-    if (err) {
-        return logger.error("Failed to copy '" + GIT_HOOKS + "' to '" + GIT_DIR + "'", err);
-    }
-    logger.info("Git hooks installed.");
+  if (err) {
+    return logger.error("Failed to copy '" + GIT_HOOKS + "' to '" + GIT_DIR + "'", err);
+  }
+  logger.info("Git hooks installed.");
 });
