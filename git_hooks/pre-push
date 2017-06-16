@@ -10,7 +10,7 @@ if [[ ! -x "$ESLINT" ]]; then
 fi
 
 CURRENT_BRANCH=($(git rev-parse --abbrev-ref HEAD))
-STAGED_FILES=($(git diff --cached --name-only --diff-filter=ACM origin/$CURRENT_BRANCH))
+STAGED_FILES=($(git diff --cached --name-only --diff-filter=ACM origin/$CURRENT_BRANCH | grep ".jsx\{0,1\}$"))
 
 echo "Checking ${#STAGED_FILES[@]} files..."
 
