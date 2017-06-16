@@ -1,0 +1,28 @@
+{
+  "name": "umlgenerator",
+  "version": "1.0.0",
+  "description": "A web app that allows the user to parse a GitHub repo and create a UML diagram",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "start": "webpack-dev-server --host=192.168.1.167"
+  },
+  "author": "tyler.gauch@tgauch.net",
+  "license": "ISC",
+  "dependencies": {
+    "eslint": "^4.0.0",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-redux": "^5.0.5",
+    "redux": "^3.6.0",
+    "webpack": "^2.6.1"
+  },
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.0.0",
+    "babel-preset-react": "^6.24.1",
+    "html-webpack-plugin": "^2.28.0",
+    "webpack": "^2.6.1",
+    "webpack-dev-server": "^2.4.5"
+  }
+}
