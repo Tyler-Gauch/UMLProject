@@ -4,5 +4,4 @@ CHANGED=`git diff HEAD@{1} --stat -- git_hooks | wc -l`
 if [ $CHANGED -gt 0 ];
 then
     echo "git_hooks were changed!"
-    composer.phar install --dev
 fi
