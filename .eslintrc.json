@@ -32,7 +32,7 @@
             "error",
             "always"
         ],
-        "no-trailing-whitespace": [
+        "no-trailing-spaces": [
             "error"
         ]
     }
