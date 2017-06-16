@@ -2,7 +2,6 @@ var ReactDOM = require("react-dom");
 
 ReactDOM.render(
     <App />,
-    document.getElementById("app")   
+    document.getElementById("app")
 );
 
-    
