@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "Branch changed.  Running setup file...\n";
+node setup/setup.js
