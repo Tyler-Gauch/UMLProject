@@ -1,0 +1,48 @@
+#!/bin/bash
+
+cd "$(git rev-parse --show-toplevel)"
+ESLINT="node_modules/.bin/eslint"
+pwd
+
+if [[ ! -x "$ESLINT" ]]; then
+  printf "\t\033[41mPlease install ESlint\033[0m (npm install eslint)\n"
+  exit 1
+fi
+
+CURRENT_BRANCH=($(git rev-parse --abbrev-ref HEAD))
+STAGED_FILES=($(git diff --cached --name-only --diff-filter=ACM origin/$CURRENT_BRANCH))
+
+echo "Checking ${#STAGED_FILES[@]} files..."
+
+if [[ "$STAGED_FILES" = "" ]]; then
+  exit 0
+fi
+
+$ESLINT "${STAGED_FILES[@]}" --fix
+
+ESLINT_EXIT="$?"
+
+# Re-add files since they may have been fixed
+# Check if anything was fixed
+FIXED_FILES=($(git diff --name-only --diff-filter=ACM))
+
+if [[ "$FIXED_FILES" != "" ]]; then
+  printf "\n\033[41mCleaned some lint for you. Repushing...\033[m\n";
+  git add "${FIXED_FILES[@]}"
+  git commit -m "Removed a little lint for you!" "${STAGED_FILES[@]}"
+fi
+
+
+if [[ "${ESLINT_EXIT}" == 0 ]]; then
+  printf "\n\033[42mLint trap is clean!\033[0m\n"
+else
+  if [[ "$CURRENT_BRANCH" == "master" ]]; then
+    printf "\n\033[41mNeed to clean that lint trap!\033[0m\n Errors and warnings are not allowed on master\n"
+    exit 1
+  else
+    printf "\n\033[41mNeed to clean that lint trap!\033[0m\n However, because this is your dirty house we will allow you to fill up that lint trap. You must clear it before pushing to master though.\n"
+    exit 0
+  fi
+fi
+
+exit $?
