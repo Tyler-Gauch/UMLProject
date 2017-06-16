@@ -10,5 +10,5 @@ ncp(GIT_HOOKS, GIT_DIR, err => {
     if (err) {
         return logger.error("Failed to copy '" + GIT_HOOKS + "' to '" + GIT_DIR + "'", err);
     }
-    console.log("Git hooks installed.");
+    logger.info("Git hooks installed.");
 });
