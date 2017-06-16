@@ -3,6 +3,6 @@
 CHANGED=`git diff HEAD@{1} --stat -- git_hooks | wc -l`
 if [ $CHANGED -gt 0 ];
 then
-    echo "git_hooks were changed!"
+    echo "git_hooks were changed rerunning setup..."
     node setup/setup.js
 fi
