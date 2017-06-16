@@ -6,8 +6,8 @@ const GIT_DIR = BASE_DIR + "/.git/hooks";
 
 
 ncp(GIT_HOOKS, GIT_DIR, err => {
-  if (err) {
-    return console.error(err);
-  }
-  console.log("Git hooks installed.");
+    if (err) {
+        return console.error(err);
+    }
+    console.log("Git hooks installed.");
 });
