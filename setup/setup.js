@@ -1,5 +1,5 @@
 const ncp = require("ncp");
-const logger = require("../helpers/logger");
+const logger = require("../helpers/logger")("setup");
 
 const BASE_DIR = __dirname + "/..";
 const GIT_HOOKS = BASE_DIR + "/git_hooks";
