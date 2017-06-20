@@ -1,11 +1,13 @@
+"use strict";
+
 const winston = require("winston");
+const _ = require("underscore");
+const BaseClass = require("./BaseClass");
 
-const DEFAULT_LOGGER = "default_logger";
+class Logger extends BaseClass {
 
-class Logger {
-
-  constructor(props) {
-    this.loggerName = props.loggerName;
+  constructor(attributes = {}) {
+    super(attributes);
     winston.level = process.env.LOG_LEVEL;
   }
 
@@ -27,6 +29,8 @@ class Logger {
 
 }
 
-Logger.loggerName = DEFAULT_LOGGER;
+Logger.prototype.defaultAttributes = {
+  loggerName: "default_logger"
+};
 
-module.exports = Logger;
+return module.exports = Logger;
