@@ -1,5 +1,6 @@
 "use strict";
 const _ = require("underscore");
+const Logger = require('./Logger');
 
 class BaseClass {
 
@@ -9,6 +10,8 @@ class BaseClass {
     _.each(classAttributes, (value, key) => {
       this[key] = value;
     });
+
+    this.logger = new Logger(classAttributes.loggerName, classAttributes.logLevel);
   }
 
 };

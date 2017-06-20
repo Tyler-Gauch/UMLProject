@@ -2,13 +2,12 @@
 
 const winston = require("winston");
 const _ = require("underscore");
-const BaseClass = require("./BaseClass");
 
-class Logger extends BaseClass {
+class Logger {
 
-  constructor(attributes = {}) {
-    super(attributes);
-    winston.level = process.env.LOG_LEVEL;
+  constructor(loggerName = "default_logger", logLevel = process.env.LOG_LEVEL) {
+    this.loggerName = loggerName;
+    winston.level = logLevel !== undefined ? logLeve : "error";
   }
 
   error(message, object) {
@@ -28,9 +27,5 @@ class Logger extends BaseClass {
   }
 
 }
-
-Logger.prototype.defaultAttributes = {
-  loggerName: "default_logger"
-};
 
 return module.exports = Logger;
