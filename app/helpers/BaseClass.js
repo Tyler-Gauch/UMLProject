@@ -1,6 +1,6 @@
 "use strict";
 const _ = require("underscore");
-const Logger = require('./Logger');
+const Logger = require("./Logger");
 
 class BaseClass {
 
@@ -14,7 +14,7 @@ class BaseClass {
     this.logger = new Logger(classAttributes.loggerName, classAttributes.logLevel);
   }
 
-};
+}
 
 BaseClass.prototype.defaultAttributes = {};
 
