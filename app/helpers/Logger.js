@@ -1,13 +1,12 @@
 "use strict";
 
 const winston = require("winston");
-const _ = require("underscore");
 
 class Logger {
 
   constructor(loggerName = "default_logger", logLevel = process.env.LOG_LEVEL) {
     this.loggerName = loggerName;
-    winston.level = logLevel !== undefined ? logLeve : "error";
+    winston.level = logLevel !== undefined ? logLevel : "error";
   }
 
   error(message, object) {
