@@ -1,6 +1,4 @@
 "use strict";
-const fs = require("fs");
-const _ = require("underscore");
 const BaseClass = require("../helpers/BaseClass");
 
 class BaseParser extends BaseClass {
