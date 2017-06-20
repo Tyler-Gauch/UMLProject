@@ -18,4 +18,4 @@ class BaseClass {
 
 BaseClass.prototype.defaultAttributes = {};
 
-return module.exports = BaseClass;
+module.exports = BaseClass;

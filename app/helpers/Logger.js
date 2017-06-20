@@ -28,4 +28,4 @@ class Logger {
 
 }
 
-return module.exports = Logger;
+\module.exports = Logger

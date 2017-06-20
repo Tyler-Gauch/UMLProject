@@ -17,4 +17,4 @@ BaseParser.prototype.defaultAttributes = {
   statementSeparator: ";"
 };
 
-return module.exports = BaseParser;
+module.exports = BaseParser;
