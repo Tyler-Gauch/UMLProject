@@ -9,4 +9,4 @@ parser.parseFile(process.argv[2]).then(function () {
     parser.logger.info("Current Word: '" + currentWord + "' Next Word: '" + parser.viewNextWord() + "'");
   }
 
-})
+});

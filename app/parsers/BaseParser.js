@@ -80,7 +80,7 @@ class BaseParser extends BaseClass {
    * Moves the iterator forward while there is still whitespace characters
    */
   eatWhiteSpace(index) {
-    
+
     for (index; index < this.fileContents.length; index++) {
       if (!this.isWhiteSpaceCharacter(this.fileContents.charAt(index))) {
         break;
@@ -99,7 +99,7 @@ class BaseParser extends BaseClass {
   /**
    * Is called on the initial load of the file
    * replaces all strings matched in this.santizeRegex
-   * with a single space. This should have regex for 
+   * with a single space. This should have regex for
    */
   sanitizeFileBuffer(fileBuffer) {
     return new BlueBirdPromise((resolve, reject) => {
@@ -124,7 +124,7 @@ class BaseParser extends BaseClass {
       })
       .then((fileBuffer) => {
         this.fileContents = fileBuffer;
-    }); 
+      });
   }
 
   parseLine() {
