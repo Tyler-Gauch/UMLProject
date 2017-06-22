@@ -6,7 +6,7 @@ class Logger {
 
   constructor(loggerName = "default_logger", logLevel = process.env.LOG_LEVEL) {
     this.loggerName = loggerName;
-    winston.level = logLevel !== undefined ? logLevel : "error";
+    winston.level = logLevel ? logLevel : "error";
   }
 
   error(message, object) {
