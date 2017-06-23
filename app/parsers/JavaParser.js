@@ -5,71 +5,71 @@ class JavaParser extends BaseParser {
   parse() {
 
     while ((this.currentWord = this.getNextKeyWord()) !== null) {
-      debugger;
-      switch (this.currentWord) {
-        case "interface":
-          this.results.classType = "interface";
-        case "class":
-          if (isAbstract) {
-            this.results.classType = "abstract";
-          }
-          if (!results.className) {
-            this.results.className = this.sanatize(this.getNextNonKeyWord());
-          } else {
-            this.parseSubClass();
-          }
-          break;
-        case "extends":
-          this.results.relationships.inherits.push(this.sanatize(this.getNextWord()));
-          break;
-        case "private":
-        case "public":
-        case "protected":
-          this.lastVisibility = this.currentWord;
-          this.isAbstract = false;
-          this.isFinal = false;
-          this.isStatic = false;
-          this.parseStatement();
-          break;
-        case "abstract":
-          this.isAbstract = true;
-          this.parseStatement();
-          break;
-        case "final":
-          this.isFinal = true;
-          this.parseStatement();
-          break;
-        case "static":
-          this.isStatic = true;
-          this.parseStatement();
-          break;
-        case "package":
-          this.results.package = this.sanatize(this.getNextNonKeyWord());
-          break;
-        case "import":
-          let ref = this.getNextNonKeyWord();
-          ref = ref.substring(ref.lastIndexOf(".") + 1).replace(this.statementSeparator, "").replace(";", "");
-          if (!this.results.relationships.references.includes(ref)) {
-            this.results.relationships.references.push(ref);
-          }
-          break;
-        case "implements":
-          let temp = this.getNextNonKeyWord();
-          let list = temp;
-          while (temp.indexOf(",") >= 0) {
-            temp = this.getNextNonKeyWord();
-            list += temp;
-          }
 
-          list = list.replace("{", "");
-          list.split(",").each((Iface) => {
-            if (!this.results.relationships.implements.includes(Iface)) {
-              this.results.relationships.implements.push(Iface);
-            }
-          });
-          break;
-        default:
-          break;
+      switch (this.currentWord) {
+      case "interface":
+        this.results.classType = "interface";
+      case "class":
+        if (isAbstract) {
+          this.results.classType = "abstract";
+        }
+        if (!results.className) {
+          this.results.className = this.sanatize(this.getNextNonKeyWord());
+        } else {
+          this.parseSubClass();
+        }
+        break;
+      case "extends":
+        this.results.relationships.inherits.push(this.sanatize(this.getNextWord()));
+        break;
+      case "private":
+      case "public":
+      case "protected":
+        this.lastVisibility = this.currentWord;
+        this.isAbstract = false;
+        this.isFinal = false;
+        this.isStatic = false;
+        this.parseStatement();
+        break;
+      case "abstract":
+        this.isAbstract = true;
+        this.parseStatement();
+        break;
+      case "final":
+        this.isFinal = true;
+        this.parseStatement();
+        break;
+      case "static":
+        this.isStatic = true;
+        this.parseStatement();
+        break;
+      case "package":
+        this.results.package = this.sanatize(this.getNextNonKeyWord());
+        break;
+      case "import":
+        let ref = this.getNextNonKeyWord();
+        ref = ref.substring(ref.lastIndexOf(".") + 1).replace(this.statementSeparator, "").replace(";", "");
+        if (!this.results.relationships.references.includes(ref)) {
+          this.results.relationships.references.push(ref);
+        }
+        break;
+      case "implements":
+        let temp = this.getNextNonKeyWord();
+        let list = temp;
+        while (temp.indexOf(",") >= 0) {
+          temp = this.getNextNonKeyWord();
+          list += temp;
+        }
+
+        list = list.replace("{", "");
+        list.split(",").each((Iface) => {
+          if (!this.results.relationships.implements.includes(Iface)) {
+            this.results.relationships.implements.push(Iface);
+          }
+        });
+        break;
+      default:
+        break;
       }
     }
 
@@ -112,7 +112,7 @@ class JavaParser extends BaseParser {
     // we want to continue parsing key words if we have a statement like
     // public static final float A = 0; if the current word is public we want
     // to keep parsing the static and the float in the master switch case
-    debugger;
+
     if (this.isKeyWord(this.viewNextWord())) {
       return;
     }
@@ -231,21 +231,21 @@ class JavaParser extends BaseParser {
 
   isAttributes(currentWord) {
     //in order to see if we have an attribute we need to check for a few conditions
-		//1) name;
-		//2) name1, name2,...nameN;
-		//3) name=0;
-		//4) name =0;
-		//5) name = 0;
-		//6) name= 0;
-		//7) name = new Object();
-		//8) name= new Object();
-		//9) name=new Object();
-		//10) name =new Object();
-		//11) name[] = new int[];
-		//12) name[]= new int[];
-		//13) name[] =new int[];
-		//14) name[]=new int[];
-		//15) name[]''new int[]{....};
+    //1) name;
+    //2) name1, name2,...nameN;
+    //3) name=0;
+    //4) name =0;
+    //5) name = 0;
+    //6) name= 0;
+    //7) name = new Object();
+    //8) name= new Object();
+    //9) name=new Object();
+    //10) name =new Object();
+    //11) name[] = new int[];
+    //12) name[]= new int[];
+    //13) name[] =new int[];
+    //14) name[]=new int[];
+    //15) name[]''new int[]{....};
 
     if (currentWord.indexOf(";") >= 0) {
       return [{

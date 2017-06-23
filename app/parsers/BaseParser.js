@@ -94,7 +94,7 @@ class BaseParser extends BaseClass {
   getNextWord() {
     let nextWord = null;
     this.eatWhiteSpace();
-    debugger;
+
     for (this.iterator; this.iterator < this.fileContents.length; this.iterator++) {
       const currentChar = this.fileContents.charAt(this.iterator);
       if (this.isWhiteSpaceCharacter(currentChar)) {
