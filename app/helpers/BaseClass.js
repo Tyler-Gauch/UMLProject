@@ -5,7 +5,7 @@ const Logger = require("./Logger");
 class BaseClass {
 
   constructor(attributes = {}) {
-    const classAttributes = _.defaults(this.defaultAttributes, attributes);
+    const classAttributes = _.extend(this.defaultAttributes, attributes);
 
     _.each(classAttributes, (value, key) => {
       this[key] = value;
