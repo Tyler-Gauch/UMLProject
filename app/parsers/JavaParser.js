@@ -10,10 +10,10 @@ class JavaParser extends BaseParser {
       case "interface":
         this.results.classType = "interface";
       case "class":
-        if (isAbstract) {
+        if (this.isAbstract) {
           this.results.classType = "abstract";
         }
-        if (!results.className) {
+        if (!this.results.className) {
           this.results.className = this.sanatize(this.getNextNonKeyWord());
         } else {
           this.parseSubClass();
@@ -97,9 +97,9 @@ class JavaParser extends BaseParser {
         break;
       }
     }
-    const end = this.iterator;
-    parser = new JavaParser({
-      fileContents: this.fileContents.substring(start - 1, end + 1)
+    const endIndex = this.iterator;
+    const parser = new JavaParser({
+      fileContents: this.fileContents.substring(startIndex - 1, endIndex + 1)
     });
     parser.parse();
     parser.results.relationships.aggregation.push(this.results.className);
@@ -255,7 +255,7 @@ class JavaParser extends BaseParser {
     }
 
     // now we want to get everything up to the next ;
-    const statment = this.viewNextStatement();
+    const statement = this.viewNextStatement();
 
     //check if we have multiple attributes on the same line
     if (/.*(,.*)(;)/.test(statement)) {
@@ -278,7 +278,7 @@ class JavaParser extends BaseParser {
 
     // covers 3 -> 15
     if (/[^,]+(=)?[^,]+(;)/.test(statement)) {
-      const splitDef = attrDef.split("=");
+      const splitDef = statement.split("=");
       let def = null;
       if (splitDef.length > 1) {
         def = splitDef[1];
