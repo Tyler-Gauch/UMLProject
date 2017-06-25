@@ -1,10 +1,18 @@
 const BaseParser = require("./BaseParser");
+const _ = require("underscore");
 
 class JavaParser extends BaseParser {
 
-  parse() {
+  constructor(attributes = {}) {
+    super(_.extend(JavaParser.prototype.defaultAttributes, attributes));
+  }
 
+  parse() {
+    this.logger.debug("Parsing: " + this.fileContents);
+    debugger;
     while ((this.currentWord = this.getNextKeyWord()) !== null) {
+
+      this.logger.debug("Parsing: " + this.currentWord);
 
       switch (this.currentWord) {
       case "interface":
@@ -117,21 +125,23 @@ class JavaParser extends BaseParser {
       return;
     }
 
+    this.logger.debug("Parsing statement");
+
     this.currentWord = this.getNextWord();
     let nextWord = this.viewNextWord();
     const currentWordHasParen = this.currentWord.indexOf("(") >= 0;
     const nextWordHasParen = nextWord.indexOf("(") >= 0;
-    let attributes;
+    let attributes = [];
 
     if (currentWordHasParen || nextWordHasParen) {
       this.parseFunction(this.currentWord, nextWord);
     } else if ((attributes = this.isAttributes(this.currentWord)) !== null) {
-      attributes.each((attribute) => {
+      _.forEach(attributes, (attribute) => {
         if (!this.results.relationships.references.includes(this.currentWord)) {
           this.results.relationships.references.push(this.currentWord);
         }
 
-        this.attributes.push({
+        this.results.attributes.push({
           name: attribute.name,
           visibility: this.lastVisibility,
           type: this.currentWord,
@@ -145,18 +155,15 @@ class JavaParser extends BaseParser {
   }
 
   parseFunction(currentWord, nextWord) {
+    this.logger.debug("Parsing function");
     let hasParameters = true;
     let parameters = "";
     let name;
     const currentWordHasParen = currentWord.indexOf("(") >= 0;
     const nextWordHasParen = nextWord.indexOf("(") >= 0;
 
-    // handels the case where we are dealing with a constructor so
-    // the type and the name are the same
-    let type = name.substring(0, currentWord.indexOf("("));
-
     if (currentWordHasParen) {
-      name = type;
+      name = currentWord.substring(0, nextWord.indexOf("("));;
       parameters += currentWord.substring(currentWord.indexOf("(") + 1);
       if (this.currentWord.indexOf(")") >= 0) {
         hasParameters = false;
@@ -172,6 +179,8 @@ class JavaParser extends BaseParser {
       }
     }
 
+    let type = currentWord.replace(/[\s]+?\(\)/, "");
+
     // we need to loop through all the words until we find the closing )
     if (hasParameters) {
       let temp;
@@ -186,7 +195,8 @@ class JavaParser extends BaseParser {
     }
 
     const paramTypes = [];
-    parameters.split(",").each((param) => {
+    debugger;
+    _.forEach(parameters.split(","), (param) => {
       const splitParam = param.split(" ");
       paramTypes.push(splitParam[0]);
     });
@@ -259,21 +269,20 @@ class JavaParser extends BaseParser {
 
     //check if we have multiple attributes on the same line
     if (/.*(,.*)(;)/.test(statement)) {
-      const response = [];
-
+      const results = [];
       statement.split(",").each((attrDef) => {
         const splitDef = attrDef.split("=");
         let def = null;
         if(splitDef.length > 1) {
           def = splitDef[1];
         }
-        response.push({
+        results.push({
           name: this.sanatize(splitDef[0]),
           default: def
         });
       });
 
-      return response;
+      return results;
     }
 
     // covers 3 -> 15

@@ -3,11 +3,12 @@ const BaseClass = require("../helpers/BaseClass");
 const BlueBirdPromise = require("bluebird");
 const fs = BlueBirdPromise.promisifyAll(require("fs"));
 const Logger = require("../helpers/logger");
+const _ = require("underscore");
 
 class BaseParser extends BaseClass {
 
   constructor(attributes = {}) {
-    super(attributes);
+    super(_.extend(BaseParser.prototype.defaultAttributes, attributes));
     this.iterator = 0;
 
     this.sanitizeFileContents();
@@ -70,8 +71,7 @@ class BaseParser extends BaseClass {
     for (this.iterator; this.iterator < this.fileContents.length; this.iterator++) {
       const currentChar = this.fileContents.charAt(this.iterator);
       statement += currentChar;
-
-      if (this.statementSeparator.test(this.currentChar)) {
+      if (this.statementSeparator.test(currentChar)) {
         break;
       }
     }
@@ -164,7 +164,7 @@ class BaseParser extends BaseClass {
   _moveIteratorTemporarily(getFunction) {
     //scope the getFunction
     getFunction = getFunction.bind(this);
-    const currentIterator = this.currentIterator;
+    const currentIterator = this.iterator;
     const response = getFunction();
     this.iterator = currentIterator;
     return response;
